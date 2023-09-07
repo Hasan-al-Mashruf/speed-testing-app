@@ -1,0 +1,24 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  max-width: 900px;
+  margin: 0 auto;
+  margin-top: 100px;
+  /* background: url("https://i.ibb.co/DWJL6Zw/pexels-irina-iriser-1379641.jpg"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.paragraph {
+  border: 1px solid lightblue;
+  padding: 20px;
+  margin-bottom: 30px;
+  color: #fff;
+}
+.paragraph p {
+  font-size: 20px;
+  line-height: 35px;
+}
