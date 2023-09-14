@@ -7,19 +7,62 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <div class="conatiner">
+    <div class="container">
       <div class="row">
         <div class="content">
-          <div class="paragraph" id="paragraph">
-            <input type="text" id="input" />
-            <p></p>
+          <div>
+            <div class="paragraph" id="paragraph">
+              <input type="text" id="input" />
+              <p></p>
+              <span class="typing">Start Typing</span>
+            </div>
+
+            <div class="btn-grp">
+              <div class="btn btn-one" onclick="showParagraph()">
+                <span>Change paragraph</span>
+              </div>
+
+              <div class="btn btn-one" onclick="showBg()">
+                <span>Change background</span>
+              </div>
+
+              <div class="btn btn-one" onclick="startAgain()">
+                <span>Reset Button</span>
+              </div>
+            </div>
           </div>
-          <button onclick="showParagraph()">Change paragraph</button>
-          <button onclick="showBg()">Change background</button>
+        </div>
+        <div class="sidebar">
+          <div>
+            <div class="progress-circle">
+              <svg class="progress" width="100" height="100">
+                <circle class="progress-ring" cx="50" cy="50" r="45"></circle>
+              </svg>
+              <div class="progress-text">
+                <span><span id="second">60</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="result">
+            <div>
+              <span id="minute" title="words per minute">WPM </span
+              ><span id="word">00</span>
+            </div>
+            <div>
+              <span id="minute" title="letter per minute">LPM </span
+              ><span id="letter">00</span>
+            </div>
+
+            <div>
+              <span id="minute" title="Wrong letter per minute">WLPM </span
+              ><span id="wrongLetter">00</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <script src="/js/paragraph.js"></script>
+    <script src="/js/asset.js"></script>
     <script src="/js/script.js"></script>
+    <script src="/js/circular.js"></script>
   </body>
 </html>

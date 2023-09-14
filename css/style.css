@@ -4,21 +4,231 @@
   box-sizing: border-box;
 }
 body {
-  max-width: 900px;
-  margin: 0 auto;
-  margin-top: 100px;
-  /* background: url("https://i.ibb.co/DWJL6Zw/pexels-irina-iriser-1379641.jpg"); */
+  /* max-width: 900px;
+  margin: 0 auto; */
+}
+.content {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }
 .paragraph {
   border: 1px solid lightblue;
-  padding: 20px;
+  padding: 25px 48px;
   margin-bottom: 30px;
   color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+input {
+  opacity: 0;
+}
+.btn-one:first-child::after {
+  border-radius: 10px 0 0 10px;
+}
+.btn-one:last-child::after {
+  border-radius: 0 10px 10px 0;
 }
 .paragraph p {
   font-size: 20px;
   line-height: 35px;
+}
+span.active {
+  color: red;
+}
+.highlighted {
+  color: gold;
+  text-decoration: underline;
+}
+.row {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: 100%;
+  place-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.result {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.result {
+  background: darkred;
+  color: #fff;
+  padding: 20px 16px;
+  border-radius: 10px;
+}
+/* CSS for the circular progress bar */
+.progress-circle {
+  position: relative;
+  width: 101px;
+  height: 101px;
+  background: #ffd000;
+  border-radius: 50%;
+  margin: 0 auto;
+  filter: drop-shadow(0px 4px 2px black);
+}
+.progress-circle svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.progress {
+  transform: rotate(-180deg);
+}
+
+.bg-circle {
+  fill: none;
+  stroke: #ccc; /* Background color of the circle */
+  stroke-width: 8;
+}
+.sidebar {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+}
+.sidebar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 50%;
+  width: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffd000;
+}
+.progress-ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-dasharray: 282;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+}
+.progress-text {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+.progress-text span {
+  color: #fff;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 34px;
+}
+.btn-grp {
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn {
+  line-height: 50px;
+  height: 50px;
+  text-align: center;
+  width: 33.3%;
+  cursor: pointer;
+}
+
+.btn-one {
+  color: #fff;
+  transition: all 0.3s;
+  position: relative;
+}
+.btn-one:not(:last-child) {
+  border-right: 1px solid #999;
+}
+.btn-one span {
+  transition: all 0.3s;
+}
+.btn-one::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.3s;
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+  transform: scale(0.1, 1);
+}
+.btn-one:hover span {
+  letter-spacing: 2px;
+}
+.btn-one:hover::before {
+  opacity: 1;
+  transform: scale(1, 1);
+}
+.btn-one::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all 0.3s;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.btn-one:hover::after {
+  opacity: 0;
+  transform: scale(0.1, 1);
+}
+.typing {
+  position: absolute;
+  top: 10px;
+  left: 4px;
+  background: #ffd000;
+  padding: 6px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  border-radius: 6px;
+  animation: example 1s infinite linear;
+}
+.typing::after {
+  content: "";
+  border-style: solid;
+  border-width: 7px 5px 0;
+  border-color: #ffd000 transparent transparent;
+  top: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+@keyframes example {
+  0% {
+    top: 10px;
+  }
+  50% {
+    top: 5px;
+  }
+  100% {
+    top: 10px;
+  }
 }
