@@ -83,22 +83,24 @@ const showBg = () => {
 };
 
 const startTimer = () => {
-  setSecond.textContent = newSecond;
-
   circleInterval = setInterval(() => {
     circleWidthCount += 4.7;
+
     setCircleWidth.style.strokeDashoffset = circleWidthCount;
   }, 1000);
   timerInterval = setInterval(() => {
     newSecond--;
-    if (newSecond > 0) {
+
+    if (newSecond < 0) {
+      // setSecond.textContent = 0;
+    } else {
       setSecond.textContent = newSecond;
     }
+
     if (newSecond <= 0) {
       clearInterval(timerInterval);
       clearInterval(circleInterval);
       makeBtnDisable("auto");
-
       showTextDisabledEffect("disabled");
 
       let typedLetters = typedData.value;
@@ -108,21 +110,21 @@ const startTimer = () => {
           const typedLetter = typedLetters[index];
           const paragraphText = span.textContent;
           letterCount++;
-          if (paragraphText !== typedLetter) {
+
+          console.log(paragraphText, "letterCount", letterCount);
+          if (paragraphText !== typedLetter && paragraphText !== " ") {
             wrongLetterCount++;
-            if (paragraphText == " ") {
-              wrongLetterCount--;
-              letterCount--;
-            }
           }
           if (paragraphText == " ") {
+            letterCount--;
+            console.log(paragraphText, "letterCount", letterCount);
             wordsCount++;
           }
           if (paragraphText == ".") {
             wordsCount++;
           }
 
-          console.log("paragraphText", paragraphText, wordsCount);
+          console.log(paragraphText, "letterCount", letterCount);
         }
       });
 
@@ -131,6 +133,7 @@ const startTimer = () => {
       setWord.textContent = wordsCount;
       typedData.value = "";
       typedData.disabled = true;
+
       makeBtnDisable("auto");
     }
   }, 1000);
@@ -191,12 +194,12 @@ const startAgain = () => {
   clearInterval(timerInterval);
   clearInterval(circleInterval);
   setSecond.textContent = " 60";
-  circleWidthCount = "00";
+  circleWidthCount = Number("00");
   setCircleWidth.style.strokeDashoffset = circleWidthCount;
   showletterCount = 1;
   newSecond = 60;
-  letterCount = "00";
-  wordsCount = 0;
+  letterCount = Number("00");
+  wordsCount = "00";
   wrongLetterCount = "00";
   setLetter.textContent = letterCount;
   setWrongLetter.textContent = wrongLetterCount;
@@ -229,10 +232,8 @@ const makeBtnDisable = (css) => {
     const btn = btnGrp[i];
     btn.style.pointerEvents = css;
     if (typedData.value.length < 1) {
-      console.log(css);
       btn.classList.remove("disabled");
     } else {
-      console.log("hasan", typedData.value);
       btn.classList.add("disabled");
     }
   }
