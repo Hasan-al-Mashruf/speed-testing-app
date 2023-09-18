@@ -5,31 +5,21 @@ const setWord = document.querySelector("#word");
 const setLetter = document.querySelector("#letter");
 const setWrongLetter = document.querySelector("#wrongLetter");
 const setTypingMsg = document.querySelector(".typing");
+let setCircleWidth = document.querySelector(".progress-ring");
+let btnGrp = document.querySelectorAll(".btn-one");
+let setTotalTime = document.querySelector("#totalTime");
+
+let circleWidthCount = 0;
+
 let writtenLetterSpans;
+let newSecond = 60;
 let timerInterval = undefined;
+let circleInterval = undefined;
 let wordsCount = 0;
 let letterCount = 0;
 let wrongLetterCount = 0;
+
 let setContentBg = document.querySelector(".content");
-
-const showParagraph = () => {
-  singleParagraph.textContent = "";
-  const randomIndex = Math.floor(Math.random() * paragraph.length);
-  const paragraphText = paragraph[randomIndex];
-  const singleLetters = paragraphText.split("");
-
-  singleLetters.forEach((letter) => {
-    let newSpan = document.createElement("span");
-    newSpan.textContent = letter;
-    singleParagraph.appendChild(newSpan);
-  });
-  writtenLetterSpans = document.querySelectorAll("#paragraph p span");
-};
-
-const showBg = () => {
-  const randomIndex = Math.floor(Math.random() * bgImage.length);
-  setContentBg.style.backgroundImage = ` linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${bgImage[randomIndex]})`;
-};
 
 const showLetter = (sentIndex) => {
   let baseIndex = 0;
@@ -39,97 +29,127 @@ const showLetter = (sentIndex) => {
   for (const letter of writtenLetterSpans) {
     letter.classList.remove("highlighted");
   }
+  if (writtenLetterSpans.length - 1 < baseIndex) {
+    newSecond = 0;
+    return;
+  }
   writtenLetterSpans[baseIndex].classList.add("highlighted");
+
+  if (baseIndex == 1) {
+    startTimer();
+  }
+};
+let oldIndex = -1;
+const showParagraph = () => {
+  singleParagraph.textContent = "";
+  let randomIndex;
+
+  // Generate a new random index until it's different from the oldIndex
+  while (true) {
+    randomIndex = Math.floor(Math.random() * paragraph.length);
+    if (randomIndex !== oldIndex) {
+      break;
+    }
+  }
+
+  oldIndex = randomIndex;
+
+  const paragraphText = paragraph[randomIndex];
+  const singleLetters = paragraphText.split("");
+
+  singleLetters.forEach((letter) => {
+    let newSpan = document.createElement("span");
+    newSpan.textContent = letter;
+    singleParagraph.appendChild(newSpan);
+  });
+  writtenLetterSpans = document.querySelectorAll("#paragraph p span");
+  showLetter();
 };
 
-const progressRing = document.querySelector(".progress-ring");
-let percentage = 100; // Start at 100%
-const targetPercentage = 0; // End at 0%
-const duration = 60;
-let circumference = 2 * Math.PI * 45;
-const steps = 100; // Number of steps to reach 0%
-const interval = (duration * 1000) / steps;
+const showBg = () => {
+  let randomIndex;
 
-function updateProgressRing() {
-  if (percentage > targetPercentage) {
-    const dashOffset = circumference - (percentage / 100) * circumference;
-    progressRing.style.strokeDashoffset = dashOffset;
-    percentage--;
-  } else {
-    clearInterval(progressRingInterval);
+  // Generate a new random index until it's different from the oldIndex
+  while (true) {
+    randomIndex = Math.floor(Math.random() * bgImage.length);
+    if (randomIndex !== oldIndex) {
+      break;
+    }
   }
-}
 
-let progressRingInterval;
+  oldIndex = randomIndex;
+  setContentBg.style.backgroundImage = ` linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${bgImage[randomIndex]})`;
+};
 
 const startTimer = () => {
-  let newSecond = 20;
   setSecond.textContent = newSecond;
+
+  circleInterval = setInterval(() => {
+    circleWidthCount += 4.7;
+    setCircleWidth.style.strokeDashoffset = circleWidthCount;
+  }, 1000);
   timerInterval = setInterval(() => {
     newSecond--;
-    setSecond.textContent = newSecond;
+    if (newSecond > 0) {
+      setSecond.textContent = newSecond;
+    }
     if (newSecond <= 0) {
       clearInterval(timerInterval);
-      typedData.disabled = true;
-      setSecond.textContent = " 00";
-      const typedLetters = typedData.value;
-      const typedWords = typedLetters.trim().split(" ");
-      const typedallLetters = typedLetters.trim().split("");
+      clearInterval(circleInterval);
+      makeBtnDisable("auto");
 
-      // Words counts
-      wordsCount = typedWords.length;
-      console.log(typedWords);
-      setWord.textContent = wordsCount;
+      showTextDisabledEffect("disabled");
 
-      letterCount = typedallLetters.length;
-      setLetter.textContent = letterCount;
-
+      let typedLetters = typedData.value;
+      setTotalTime.textContent = setSecond.innerHTML;
       writtenLetterSpans.forEach((span, index) => {
         if (index < typedLetters.length) {
-          const typedLetter = typedallLetters[index];
+          const typedLetter = typedLetters[index];
           const paragraphText = span.textContent;
-          if (paragraphText !== typedLetter && typedLetter !== undefined) {
+          letterCount++;
+          if (paragraphText !== typedLetter) {
             wrongLetterCount++;
           }
+          if (paragraphText == " ") {
+            wrongLetterCount--;
+            letterCount--;
+            wordsCount++;
+          }
         }
-        span.classList.remove("highlighted");
       });
+
+      setLetter.textContent = letterCount;
       setWrongLetter.textContent = wrongLetterCount;
+      setWord.textContent = wordsCount;
+      typedData.value = "";
+      typedData.disabled = true;
+      makeBtnDisable("auto");
     }
   }, 1000);
 };
 
-const startIntervals = () => {
-  progressRingInterval = setInterval(updateProgressRing, interval);
-  startTimer();
-};
-
+let showletterCount = 1;
 document.addEventListener("input", function () {
   setTypingMsg.style.display = "none";
-  if (!progressRingInterval && !timerInterval) {
-    // Start both intervals when the user begins typing
-    startIntervals();
-    console.log("enter");
+  if (showletterCount === 1) {
+    makeBtnDisable("none");
   }
 
   const typedLetters = typedData.value;
-
+  showLetter(showletterCount);
   writtenLetterSpans.forEach((span, index) => {
     if (index < typedLetters.length) {
       const typedLetter = typedLetters[index];
       const paragraphText = span.textContent;
       if (paragraphText !== typedLetter) {
         if (paragraphText == " ") {
-          wordsCount++;
-          console.log("wordscount", wordsCount);
           span.style.backgroundColor = "red";
         }
-
         span.classList.add("active");
       }
-      showLetter(index + 1);
     }
   });
+  showletterCount++;
 });
 
 document.addEventListener("keydown", function (event) {
@@ -158,23 +178,59 @@ const startAgain = () => {
     span.classList.remove("active");
     span.style.backgroundColor = "transparent";
   });
-  wordsCount = 0; // Reset word count
-  letterCount = 0; // Reset letter count
-  wrongLetterCount = 0; // Reset wrong letter count
+  wrongLetterCount = 0;
 
-  setLetter.textContent = letterCount; // Update the displayed counts
-  setWord.textContent = wordsCount;
-  setWrongLetter.textContent = wrongLetterCount;
-  clearInterval(progressRingInterval);
   clearInterval(timerInterval);
-  progressRing.style.strokeDashoffset = 0;
-  percentage = 100;
-  setSecond.textContent = "00";
-  timerInterval = undefined;
-  progressRingInterval = undefined;
+  clearInterval(circleInterval);
+  setSecond.textContent = " 60";
+  circleWidthCount = "00";
+  setCircleWidth.style.strokeDashoffset = circleWidthCount;
+  showletterCount = 1;
+  newSecond = 60;
+  letterCount = "00";
+  wordsCount = "00";
+  wrongLetterCount = "00";
+  setLetter.textContent = letterCount;
+  setWrongLetter.textContent = wrongLetterCount;
+  setWord.textContent = wordsCount;
+  setTotalTime.textContent = "00";
+  showTextDisabledEffect();
   showLetter();
+  makeBtnDisable("auto");
+};
+
+const showTextDisabledEffect = (disabled) => {
+  writtenLetterSpans.forEach((span, index) => {
+    if (
+      span.getAttribute("class") !== "disabled" &&
+      span.getAttribute("class") !== "active" &&
+      disabled
+    ) {
+      span.classList.add(disabled);
+    } else {
+      console.log("found");
+      span.classList.remove("disabled");
+    }
+  });
+};
+
+const makeBtnDisable = (css) => {
+  console.log(css);
+
+  for (let i = 0; i < btnGrp.length - 1; i++) {
+    const btn = btnGrp[i];
+    btn.style.pointerEvents = css;
+    if (typedData.value.length < 1) {
+      console.log(css);
+      btn.classList.remove("disabled");
+    } else {
+      console.log("hasan", typedData.value);
+      btn.classList.add("disabled");
+    }
+  }
 };
 
 showParagraph();
 showBg();
 showLetter();
+initializeParticleEffect();

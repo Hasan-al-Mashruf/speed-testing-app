@@ -10,9 +10,9 @@
     <div class="container">
       <div class="row">
         <div class="content">
-          <div>
+          <div style="width: 80%">
             <div class="paragraph" id="paragraph">
-              <input type="text" id="input" />
+              <input type="text" id="input" autocomplete="off" />
               <p></p>
               <span class="typing">Start Typing</span>
             </div>
@@ -57,10 +57,16 @@
               <span id="minute" title="Wrong letter per minute">WLPM </span
               ><span id="wrongLetter">00</span>
             </div>
+            <div>
+              <span id="minute" title="Wrong letter per minute">Time </span
+              ><span id="totalTime">00</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="mysvg"></div>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="/js/asset.js"></script>
     <script src="/js/script.js"></script>
     <script src="/js/circular.js"></script>
