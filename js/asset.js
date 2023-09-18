@@ -1,7 +1,7 @@
 const paragraph = [
   "Why did the math book look so sad? Because it had too many problems to solve!.",
   "What do you get when you cross a snowman and a vampire? Frostbite!.",
-  "asdsadd asdsad sadasdas",
+  "Why don't scientists trust atoms? Because they make up everything!.",
 ];
 const bgImage = [
   "https://i.ibb.co/1XQLxPn/pexels-irina-iriser-1420003.jpg",

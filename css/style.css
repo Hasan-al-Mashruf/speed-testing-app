@@ -3,10 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-body {
-  /* max-width: 900px;
-  margin: 0 auto; */
-}
+
 .content {
   background-repeat: no-repeat;
   background-size: cover;
@@ -17,6 +14,39 @@ body {
   align-items: center;
   justify-content: center;
   padding: 20px;
+}
+.row {
+  display: grid;
+  grid-template-columns: 70% 30%;
+  height: 100%;
+  place-items: center;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.typing {
+  position: absolute;
+  top: 10px;
+  left: 4px;
+  background: #ffd000;
+  padding: 6px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000;
+  border-radius: 6px;
+  animation: float-x 1s infinite linear;
+}
+.typing::after {
+  content: "";
+  border-style: solid;
+  border-width: 7px 5px 0;
+  border-color: #ffd000 transparent transparent;
+  top: 100%;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.content input {
+  opacity: 0;
 }
 .paragraph {
   border: 1px solid lightblue;
@@ -31,118 +61,35 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.3);
   min-width: 80%;
 }
-/* input {
-  opacity: 0;
-} */
-.btn-one:first-child::after {
-  border-radius: 10px 0 0 10px;
-}
-.btn-one:last-child::after {
-  border-radius: 0 10px 10px 0;
-}
-.btn-one {
-  cursor: arr !important;
-}
 .paragraph p {
   font-size: 20px;
   line-height: 35px;
 }
-span.active {
+.paragraph p span.active {
   color: red;
 }
-span.disabled {
+
+.paragraph p span.disabled {
   color: #a8a6a6;
 }
-.highlighted {
+
+.paragraph p .highlighted {
   color: gold;
   text-decoration: underline;
 }
-.row {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  height: 100%;
-  place-items: center;
-  max-width: 1300px;
-  margin: 0 auto;
-}
-.result {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.result {
-  background: darkred;
-  color: #fff;
-  padding: 20px 16px;
-  border-radius: 10px;
-}
-/* CSS for the circular progress bar */
-.progress-circle {
-  position: relative;
-  width: 101px;
-  height: 101px;
-  background: #ffd000;
-  border-radius: 50%;
-  margin: 0 auto;
-  filter: drop-shadow(0px 4px 2px black);
-}
-.progress-circle svg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.progress {
-  transform: rotate(-180deg);
+
+.paragraph .btn-one:first-child::after {
+  border-radius: 10px 0 0 10px;
 }
 
-.bg-circle {
-  fill: none;
-  stroke: #ccc; /* Background color of the circle */
-  stroke-width: 8;
+.paragraph .btn-one:last-child::after {
+  border-radius: 0 10px 10px 0;
 }
-.sidebar {
-  width: 100%;
-  text-align: center;
-  padding: 20px;
-  position: relative;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
+
+.paragraph .btn-one {
+  min-width: 150px;
 }
-.sidebar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 50%;
-  width: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ffd000;
-}
-.progress-ring {
-  fill: none;
-  stroke: #fff;
-  stroke-width: 8;
-  stroke-dasharray: 282;
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset 1s linear;
-}
-.progress-text {
-  position: absolute;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-}
-.progress-text span {
-  color: #fff;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 34px;
-}
+
 .btn-grp {
   display: flex;
   flex-wrap: wrap;
@@ -208,29 +155,91 @@ span.disabled {
   opacity: 0;
   transform: scale(0.1, 1);
 }
-.typing {
-  position: absolute;
-  top: 10px;
-  left: 4px;
-  background: #ffd000;
-  padding: 6px 16px;
-  font-size: 14px;
-  line-height: 20px;
-  color: #000;
-  border-radius: 6px;
-  animation: example 1s infinite linear;
+
+/* sidebar...... */
+
+.sidebar {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  border-left: 2px solid red;
 }
-.typing::after {
+.sidebar::before {
   content: "";
-  border-style: solid;
-  border-width: 7px 5px 0;
-  border-color: #ffd000 transparent transparent;
-  top: 100%;
   position: absolute;
+  top: 0;
+  height: 50%;
+  width: 80px;
   left: 50%;
   transform: translateX(-50%);
+  background: #ffd000;
 }
-@keyframes example {
+.sidebar .progress-circle {
+  position: relative;
+  width: 101px;
+  height: 101px;
+  background: #ffd000;
+  border-radius: 50%;
+  margin: 0 auto;
+  filter: drop-shadow(0px 4px 2px black);
+}
+
+.progress-ring {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 8;
+  stroke-dasharray: 282;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+}
+.sidebar .progress-circle svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.progress-text {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+.sidebar .progress {
+  transform: rotate(-180deg);
+}
+
+.sidebar .result {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  background: darkred;
+  color: #fff;
+  padding: 20px 16px;
+  border-radius: 10px;
+}
+
+.bg-circle {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 8;
+}
+
+.progress-text span {
+  color: #fff;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 34px;
+}
+
+/* animation for start typing text */
+@keyframes float-x {
   0% {
     top: 10px;
   }
@@ -241,6 +250,11 @@ span.disabled {
     top: 10px;
   }
 }
+.content-parent {
+  width: 80%;
+}
+
+/* tab and mobile */
 @media screen and (max-width: 740px) {
   .row {
     display: flex;
@@ -257,6 +271,18 @@ span.disabled {
   }
   .content {
     position: absolute;
-    top: 0;
+    top: 10%;
+  }
+  .paragraph {
+    margin-top: 80px;
+  }
+  .content-parent {
+    width: 95%;
+  }
+}
+/* mobile */
+@media screen and (max-width: 500px) {
+  .btn-one {
+    width: 100%;
   }
 }

@@ -64,6 +64,7 @@ const showParagraph = () => {
   });
   writtenLetterSpans = document.querySelectorAll("#paragraph p span");
   showLetter();
+  startAgain();
 };
 
 const showBg = () => {
@@ -101,7 +102,7 @@ const startTimer = () => {
       showTextDisabledEffect("disabled");
 
       let typedLetters = typedData.value;
-      setTotalTime.textContent = setSecond.innerHTML;
+      setTotalTime.textContent = 60 - Number(setSecond.innerHTML);
       writtenLetterSpans.forEach((span, index) => {
         if (index < typedLetters.length) {
           const typedLetter = typedLetters[index];
@@ -109,12 +110,19 @@ const startTimer = () => {
           letterCount++;
           if (paragraphText !== typedLetter) {
             wrongLetterCount++;
+            if (paragraphText == " ") {
+              wrongLetterCount--;
+              letterCount--;
+            }
           }
           if (paragraphText == " ") {
-            wrongLetterCount--;
-            letterCount--;
             wordsCount++;
           }
+          if (paragraphText == ".") {
+            wordsCount++;
+          }
+
+          console.log("paragraphText", paragraphText, wordsCount);
         }
       });
 
@@ -188,7 +196,7 @@ const startAgain = () => {
   showletterCount = 1;
   newSecond = 60;
   letterCount = "00";
-  wordsCount = "00";
+  wordsCount = 0;
   wrongLetterCount = "00";
   setLetter.textContent = letterCount;
   setWrongLetter.textContent = wrongLetterCount;
@@ -233,4 +241,3 @@ const makeBtnDisable = (css) => {
 showParagraph();
 showBg();
 showLetter();
-initializeParticleEffect();
