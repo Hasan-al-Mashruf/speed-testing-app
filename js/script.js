@@ -8,7 +8,7 @@ const setTypingMsg = document.querySelector(".typing");
 let setCircleWidth = document.querySelector(".progress-ring");
 let btnGrp = document.querySelectorAll(".btn-one");
 let setTotalTime = document.querySelector("#totalTime");
-
+let setContentBg = document.querySelector(".content");
 let circleWidthCount = 0;
 
 let writtenLetterSpans;
@@ -18,8 +18,6 @@ let circleInterval = undefined;
 let wordsCount = 0;
 let letterCount = 0;
 let wrongLetterCount = 0;
-
-let setContentBg = document.querySelector(".content");
 
 const showLetter = (sentIndex) => {
   let baseIndex = 0;
@@ -39,6 +37,7 @@ const showLetter = (sentIndex) => {
     startTimer();
   }
 };
+
 let oldIndex = -1;
 const showParagraph = () => {
   singleParagraph.textContent = "";
@@ -111,20 +110,17 @@ const startTimer = () => {
           const paragraphText = span.textContent;
           letterCount++;
 
-          console.log(paragraphText, "letterCount", letterCount);
           if (paragraphText !== typedLetter && paragraphText !== " ") {
             wrongLetterCount++;
           }
           if (paragraphText == " ") {
             letterCount--;
-            console.log(paragraphText, "letterCount", letterCount);
+
             wordsCount++;
           }
           if (paragraphText == ".") {
             wordsCount++;
           }
-
-          console.log(paragraphText, "letterCount", letterCount);
         }
       });
 
@@ -219,15 +215,12 @@ const showTextDisabledEffect = (disabled) => {
     ) {
       span.classList.add(disabled);
     } else {
-      console.log("found");
       span.classList.remove("disabled");
     }
   });
 };
 
 const makeBtnDisable = (css) => {
-  console.log(css);
-
   for (let i = 0; i < btnGrp.length - 1; i++) {
     const btn = btnGrp[i];
     btn.style.pointerEvents = css;
